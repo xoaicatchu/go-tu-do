@@ -12,7 +12,7 @@ Trang tĩnh (HTML, CSS, JS thuần), không cần build.
 ## Cấu trúc
 - `index.html`, `style.css`, `main.js` — trang
 - `gotudo.bundle.js` — bộ gõ bản web (ô gõ thử trên trang chạy bằng file này; cũng là file để nhúng vào website khác)
-- `downloads/` — `GoTuDo.exe` (Windows), `gotudo-extension.zip` (Chrome/Edge), `gotudo.user.js` (userscript)
+- `downloads/GoTuDo.exe` — bản Windows
 - `fonts/` — Be Vietnam Pro, JetBrains Mono (giấy phép SIL OFL, kèm trong thư mục)
 - `og.png` — ảnh xem trước khi chia sẻ link
 - `vercel.json` — header tải file, cache
