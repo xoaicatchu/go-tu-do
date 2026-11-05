@@ -93,7 +93,6 @@ section + .band { margin-top: clamp(72px, 9vw, 112px) !important; }
   display: inline-block; width: 0.06em; height: 0.78em; background: var(--lime); margin-left: 0.04em;
   vertical-align: -0.02em; animation: blink 1s steps(1) infinite; border-radius: 2px;
 }
-.caret.gone { animation: none; opacity: 0; transition: opacity 400ms; }
 @keyframes blink { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .caret { animation: none; } }
 

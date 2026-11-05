@@ -36,19 +36,31 @@
     keys.appendChild(el);
   }
 
-  // Chữ tự gõ ra luôn chạy (kể cả khi Windows tắt "Animation effects", vì đây là nội dung chính của trang);
-  // chỉ bỏ hiệu ứng phím lún khi người dùng chọn giảm chuyển động.
-  {
-    render('');
-    let i = 0;
-    const tick = () => {
-      if (i >= STEPS.length) { setTimeout(() => caret.classList.add('gone'), 1200); return; }
-      const [k, text, mark] = STEPS[i++];
-      render(text, mark); keycap(k, !reduce);
-      setTimeout(tick, k === ' ' ? 260 : TONE.has(k) ? 300 : 150);
-    };
-    setTimeout(tick, 450);
+  // Chữ tự gõ ra, dừng, xoá từng chữ, gõ lại — lặp liên tục (kể cả khi Windows tắt "Animation effects",
+  // vì đây là nội dung chính của trang); chỉ bỏ hiệu ứng phím lún khi người dùng chọn giảm chuyển động.
+  const FULL = STEPS[STEPS.length - 1][1];
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  async function loop() {
+    await sleep(450);
+    for (;;) {
+      for (const [k, text, mark] of STEPS) {            // gõ
+        render(text, mark); keycap(k, !reduce);
+        await sleep(k === ' ' ? 260 : TONE.has(k) ? 300 : 150);
+      }
+      await sleep(2400);                                 // dừng cho đọc
+      const chars = [...FULL];
+      const per = keys.children.length / chars.length;   // rút dải phím theo nhịp xoá chữ
+      for (let n = chars.length - 1; n >= 0; n--) {      // xoá từng chữ, như bấm Backspace
+        render(chars.slice(0, n).join(''));
+        while (keys.children.length > Math.round(n * per)) keys.removeChild(keys.lastChild);
+        await sleep(70);
+      }
+      keys.textContent = '';
+      await sleep(500);
+    }
   }
+  render('');
+  loop();
 
   // ---------------- Ô gõ thử ----------------
   const pad = document.getElementById('pad');
