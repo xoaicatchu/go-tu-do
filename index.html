@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gõ Tự Do — bộ gõ tiếng Việt tự hiểu khi bạn gõ tiếng Anh</title>
+<meta name="description" content="Bộ gõ tiếng Việt Telex/VNI cho Windows và trình duyệt. Gõ lẫn tiếng Anh không cần chuyển chế độ, tự sửa lỗi trượt phím, gõ tắt, giữ thói quen UniKey. Miễn phí, mã nguồn mở.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gõ Tự Do — bộ gõ tiếng Việt tự hiểu khi bạn gõ tiếng Anh">
+<meta property="og:description" content="Gõ “to the moon” ra to the moon, gõ “tooi hocj moon toans” ra tôi học môn toán. Không cần bấm chuyển Việt/Anh. Miễn phí cho Windows và trình duyệt.">
+<meta property="og:image" content="/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#13203A">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preload" href="/fonts/be-vietnam-pro-vietnamese-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/be-vietnam-pro-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="nav">
+  <a class="brand" href="#top" aria-label="Gõ Tự Do, về đầu trang"><span class="brand-key" aria-hidden="true">~</span>Gõ Tự Do</a>
+  <nav aria-label="Mục chính">
+    <a href="#thu">Gõ thử</a>
+    <a href="#lam-duoc-gi">Làm được gì</a>
+    <a href="#tai-ve">Tải về</a>
+    <a class="nav-cta" href="/downloads/GoTuDo.exe" download>Tải cho Windows</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- Hero: chữ tự gõ ra từ phím thô -->
+  <section class="hero">
+    <h1 class="hero-word" aria-label="Gõ tự do"><span id="word" aria-hidden="true">Gõ tự do</span><span class="caret" aria-hidden="true"></span></h1>
+    <div class="keys" id="keys" aria-hidden="true"></div>
+    <p class="lede">Bộ gõ tiếng Việt tự biết lúc nào bạn đang gõ tiếng Anh. Không cần bấm chuyển chế độ, không bỏ dấu bừa vào <em>the</em>, <em>moon</em>, <em>deploy</em>.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="/downloads/GoTuDo.exe" download>Tải cho Windows</a>
+      <a class="btn btn-ghost" href="#thu">Gõ thử ngay trên trang</a>
+    </div>
+    <p class="fine">Miễn phí, mã nguồn mở. Bản Windows nặng 1,3 MB, chạy ngay không cần cài.</p>
+  </section>
+
+  <!-- Gõ thử -->
+  <section class="try" id="thu" aria-labelledby="try-h">
+    <div class="try-head">
+      <h2 id="try-h">Gõ thử, không cần cài gì</h2>
+      <p>Ô bên dưới đang chạy đúng bộ gõ của bản thật. Gõ Telex như bình thường, gõ lẫn tiếng Anh cũng được.</p>
+    </div>
+    <div class="try-box">
+      <label class="sr-only" for="pad">Ô gõ thử</label>
+      <textarea id="pad" rows="5" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="Gõ thử: tooi hocj moon toans, to the moon, hoabgf…"></textarea>
+      <div class="try-foot">
+        <div class="pressed" aria-live="off"><span class="pressed-label">Phím bạn vừa bấm</span><span id="pressed" class="pressed-keys"></span></div>
+        <button class="link-btn" type="button" id="clear">Xoá ô gõ</button>
+      </div>
+    </div>
+    <p class="try-hint">Chưa biết gõ gì? Thử lần lượt:
+      <button class="sample" type="button" data-keys="tooi hocj moon toans">tooi hocj moon toans</button>
+      <button class="sample" type="button" data-keys="love you to the moon and back">love you to the moon and back</button>
+      <button class="sample" type="button" data-keys="anh review PR giups em vowis">anh review PR giups em vowis</button>
+      <button class="sample" type="button" data-keys="hoabgf">hoabgf</button>
+    </p>
+  </section>
+
+  <!-- Bạn gõ / Ra -->
+  <section class="does" id="lam-duoc-gi" aria-labelledby="does-h">
+    <h2 id="does-h">Bạn gõ gì, ra nấy</h2>
+    <p class="section-lede">Mỗi dòng dưới đây là đúng kết quả của bộ gõ, không phải ảnh minh hoạ.</p>
+    <table class="io">
+      <thead><tr><th scope="col">Bạn gõ</th><th scope="col">Gõ Tự Do ra</th><th scope="col">Vì sao</th></tr></thead>
+      <tbody>
+        <tr><td><kbd>tooi hocj moon toans</kbd></td><td class="out">tôi học môn toán</td><td>Telex quen thuộc, đặt dấu ở đâu trong từ cũng được.</td></tr>
+        <tr><td><kbd>to the moon</kbd></td><td class="out">to the moon</td><td>Đoán Việt hay Anh theo cả câu, nên <em>moon</em> không thành <em>môn</em>.</td></tr>
+        <tr><td><kbd>deploy chieeuf nay nhes</kbd></td><td class="out">deploy chiều nay nhé</td><td>Lẫn tiếng Anh giữa câu tiếng Việt, khỏi chuyển qua chuyển lại.</td></tr>
+        <tr><td><kbd>hoabgf</kbd></td><td class="out">hoàng</td><td>Trượt phím <em>b</em> cạnh <em>n</em>: tự sửa, nhưng chỉ khi chắc chắn.</td></tr>
+        <tr><td><kbd>this.state vaf obj.dir</kbd></td><td class="out">this.state và obj.dir</td><td>Không phá code, tên biến, đường dẫn.</td></tr>
+        <tr><td><kbd>hoangff</kbd></td><td class="out">hoangf</td><td>Gõ lại phím dấu để bỏ dấu, đúng thói quen UniKey.</td></tr>
+        <tr><td><kbd>ko</kbd> <kbd>Ko</kbd> <kbd>KO</kbd></td><td class="out">không, Không, KHÔNG</td><td>Gõ tắt tự đặt, giữ đúng hoa thường. Có trên bản Windows.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Những thứ khác -->
+  <section class="more" aria-labelledby="more-h">
+    <h2 id="more-h">Những thứ bạn sẽ không phải nghĩ tới</h2>
+    <dl class="facts">
+      <div><dt>Không tranh phím với UniKey</dt><dd>Đang mở UniKey, Vietkey, EVKey hay OpenKey thì Gõ Tự Do tự nhường, icon chuyển xám. Tắt bộ gõ kia là gõ tiếp được ngay.</dd></div>
+      <div><dt>Gõ nhanh không loạn chữ</dt><dd>Phím sửa dấu luôn đến đúng thứ tự, kể cả khi bạn gõ dồn. Không có cảnh tự bung ra một tràng ký tự lạ.</dd></div>
+      <div><dt>Thanh địa chỉ trình duyệt</dt><dd>Chrome, Edge, Cốc Cốc tự điền gợi ý không còn làm mất chữ khi bỏ dấu.</dd></div>
+      <div><dt>Tắt theo từng ứng dụng</dt><dd>Chọn game hay phần mềm nào không cần tiếng Việt, ở đó Gõ Tự Do đứng yên.</dd></div>
+      <div><dt>Không gửi gì ra ngoài</dt><dd>Mọi thứ chạy ngay trên máy bạn. Không tài khoản, không quảng cáo, không thu thập chữ bạn gõ.</dd></div>
+      <div><dt>Kiểm thử thật</dt><dd>Mỗi bản phát hành chạy qua hơn 450.000 ca kiểm tra tự động. Bản Windows và bản web cho kết quả giống hệt nhau.</dd></div>
+    </dl>
+  </section>
+
+  <!-- Tải về -->
+  <section class="get" id="tai-ve" aria-labelledby="get-h">
+    <h2 id="get-h">Dùng ở đâu cũng được</h2>
+    <div class="get-grid">
+      <article class="get-main">
+        <h3>Windows 10, 11</h3>
+        <p>Gõ được trong mọi ứng dụng: Word, Zalo, Teams, VS Code, trình duyệt. Một file duy nhất, mở là chạy, icon nằm ở khay hệ thống.</p>
+        <a class="btn btn-primary" href="/downloads/GoTuDo.exe" download>Tải GoTuDo.exe</a>
+        <p class="note">Lần đầu mở, Windows có thể hiện “Windows protected your PC” vì file chưa ký số. Bấm <strong>More info</strong> rồi <strong>Run anyway</strong>.</p>
+      </article>
+      <article>
+        <h3>Chrome, Edge, Cốc Cốc</h3>
+        <p>Tiện ích cho trình duyệt, khi bạn không cài được phần mềm trên máy (máy công ty chẳng hạn).</p>
+        <a class="btn btn-ghost" href="/downloads/gotudo-extension.zip" download>Tải tiện ích (.zip)</a>
+        <ol class="steps">
+          <li>Giải nén file vừa tải.</li>
+          <li>Mở <code>chrome://extensions</code>, bật <em>Developer mode</em>.</li>
+          <li>Bấm <em>Load unpacked</em>, chọn thư mục vừa giải nén.</li>
+        </ol>
+      </article>
+      <article>
+        <h3>Tampermonkey, Violentmonkey</h3>
+        <p>Đã có trình quản lý userscript thì cài một chạm.</p>
+        <a class="btn btn-ghost" href="/downloads/gotudo.user.js">Cài userscript</a>
+      </article>
+      <article>
+        <h3>Website của bạn</h3>
+        <p>Thêm một dòng để khách gõ được tiếng Việt trên trang của bạn, kể cả khi máy họ không có bộ gõ.</p>
+        <div class="snippet"><code id="embed">&lt;script src="/gotudo.bundle.js" defer&gt;&lt;/script&gt;</code><button class="link-btn" type="button" id="copy">Chép</button></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Hỏi đáp -->
+  <section class="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">Hỏi nhanh</h2>
+    <details><summary>Có mất tiền không?</summary><p>Không. Gõ Tự Do miễn phí và mã nguồn mở theo giấy phép MIT.</p></details>
+    <details><summary>Có cần tắt UniKey không?</summary><p>Không cần. Khi UniKey (hoặc Vietkey, EVKey, OpenKey) đang chạy, Gõ Tự Do tự nhường để hai bộ gõ không cùng sửa một chữ. Muốn dùng Gõ Tự Do thì thoát bộ gõ kia.</p></details>
+    <details><summary>Lỡ nó nhận nhầm tiếng Anh thành tiếng Việt thì sao?</summary><p>Bấm Backspace là xoá đúng một ký tự như bình thường. Gõ lại phím dấu thì bỏ dấu, giống hệt UniKey.</p></details>
+    <details><summary>Có gõ VNI được không?</summary><p>Được. Chọn VNI trong bảng cài đặt (click icon ở khay hệ thống).</p></details>
+    <details><summary>Có bản cho macOS, điện thoại không?</summary><p>Chưa có ứng dụng riêng. Trên macOS bạn dùng được bản tiện ích trình duyệt.</p></details>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p><span class="brand-key small" aria-hidden="true">~</span>Gõ Tự Do. Mã nguồn mở, giấy phép MIT. Làm bởi Peter.</p>
+</footer>
+
+<script src="/main.js" defer></script>
+<script src="/gotudo.bundle.js" defer></script>
+</body>
+</html>

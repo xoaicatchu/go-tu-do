@@ -1,0 +1,17 @@
+{
+  "cleanUrls": true,
+  "headers": [
+    { "source": "/downloads/GoTuDo.exe", "headers": [
+      { "key": "Content-Type", "value": "application/vnd.microsoft.portable-executable" },
+      { "key": "Content-Disposition", "value": "attachment; filename=\"GoTuDo.exe\"" } ] },
+    { "source": "/downloads/gotudo-extension.zip", "headers": [
+      { "key": "Content-Disposition", "value": "attachment; filename=\"gotudo-extension.zip\"" } ] },
+    { "source": "/downloads/gotudo.user.js", "headers": [
+      { "key": "Content-Type", "value": "text/javascript; charset=utf-8" } ] },
+    { "source": "/gotudo.bundle.js", "headers": [
+      { "key": "Access-Control-Allow-Origin", "value": "*" },
+      { "key": "Cache-Control", "value": "public, max-age=3600" } ] },
+    { "source": "/fonts/(.*)", "headers": [
+      { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" } ] }
+  ]
+}
