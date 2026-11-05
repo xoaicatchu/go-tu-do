@@ -4,18 +4,23 @@
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const TONE = new Set(['s', 'f', 'r', 'x', 'j', 'w']);
 
-  // ---------------- Hero: "Gõ tự do" tự gõ ra từ phím thô "Gox tuwj do" ----------------
-  // Mỗi bước: phím bấm, chuỗi hiện ra, vị trí ký tự vừa nhận dấu (tô đỏ một nhịp)
-  const STEPS = [
-    ['G', 'G'], ['o', 'Go'], ['x', 'Gõ', 1],
-    [' ', 'Gõ '],
-    ['t', 'Gõ t'], ['u', 'Gõ tu'], ['w', 'Gõ tư', 4], ['j', 'Gõ tự', 4],
-    [' ', 'Gõ tự '],
-    ['d', 'Gõ tự d'], ['o', 'Gõ tự do'],
+  // ---------------- Hero: lần lượt gõ các câu theo từng tình huống dùng ----------------
+  // Chữ hiện ra lấy từ chính bộ gõ (framesFor), từng phím một — không phải chữ dựng sẵn.
+  const PHRASES = [
+    { keys: 'Gox tuwj do', tag: 'Gõ Tự Do' },
+    { keys: 'toois nay ddi awn khoong?', tag: 'Nhắn tin Zalo, Messenger' },
+    { keys: 'to the moon', tag: 'Tiếng Anh giữ nguyên' },
+    { keys: 'deploy chieeuf nay nhes', tag: 'Làm việc, lập trình' },
+    { keys: 'hoabgf', tag: 'Trượt phím? Tự sửa' },
+    { keys: 'Freeship toanf quoocs', tag: 'Bán hàng online' },
+    { keys: 'hocj IELTS mooix ngayf', tag: 'Học tập' },
   ];
   const word = document.getElementById('word');
   const keys = document.getElementById('keys');
-  const caret = document.querySelector('.caret');
+  const tagEl = document.getElementById('tag');
+  const h1 = document.querySelector('.hero-word');
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const MAX_KEYS = 18;
 
   function render(text, mark) {
     word.textContent = '';
@@ -26,7 +31,7 @@
       word.appendChild(s);
     });
     if (mark != null) requestAnimationFrame(() => requestAnimationFrame(() => {
-      const m = word.children[mark]; if (m) m.classList.remove('mark'); // mực đỏ phai về màu mực
+      const m = word.children[mark]; if (m) m.classList.remove('mark'); // dấu loé màu nhấn rồi về trắng
     }));
   }
   function keycap(k, animate) {
@@ -34,29 +39,72 @@
     el.className = 'key' + (k === ' ' ? ' space' : '') + (TONE.has(k) ? ' tone' : '') + (animate ? ' in' : '');
     el.textContent = k === ' ' ? 'space' : k;
     keys.appendChild(el);
+    // giữ một hàng: bỏ phím cũ nhất khi tràn chiều ngang
+    while (keys.children.length > 1 && (keys.children.length > MAX_KEYS || keys.scrollWidth > keys.clientWidth + 1)) keys.removeChild(keys.firstChild);
   }
 
-  // Chữ tự gõ ra, dừng, xoá từng chữ, gõ lại — lặp liên tục (kể cả khi Windows tắt "Animation effects",
-  // vì đây là nội dung chính của trang); chỉ bỏ hiệu ứng phím lún khi người dùng chọn giảm chuyển động.
-  const FULL = STEPS[STEPS.length - 1][1];
-  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  // Cỡ chữ vừa khung cho từng câu; chiều cao dòng cố định để phần dưới không nhảy
+  let baseFs = 0;
+  const probe = document.createElement('span');
+  probe.className = 'hero-probe'; probe.setAttribute('aria-hidden', 'true');
+  h1.appendChild(probe);
+  function measureBase() {
+    h1.style.fontSize = ''; h1.style.height = ''; h1.style.paddingBottom = '';
+    baseFs = parseFloat(getComputedStyle(h1).fontSize);
+    h1.style.height = (baseFs * 1.06) + 'px';
+    h1.style.paddingBottom = (baseFs * 0.14) + 'px'; // cố định theo cỡ lớn nhất, không đổi theo từng câu
+  }
+  function fitTo(text) {
+    probe.style.fontSize = '100px'; probe.textContent = text;
+    const w = probe.getBoundingClientRect().width || 1;
+    const room = h1.clientWidth - baseFs * 0.12; // chừa chỗ con trỏ
+    h1.style.fontSize = Math.min(baseFs, Math.floor(100 * room / w)) + 'px';
+  }
+  let current = PHRASES[0];
+  measureBase();
+  window.addEventListener('resize', () => { measureBase(); fitTo(current.out || 'Gõ tự do'); });
+
+  async function engineReady() {
+    for (let i = 0; i < 100 && !(window.GoTuDoIME && window.GoTuDoDict); i++) await sleep(50);
+    return !!(window.GoTuDoIME && window.GoTuDoDict);
+  }
+  function framesOf(ph) {
+    const fr = framesFor(ph.keys) || [];
+    let prev = '';
+    return fr.map(([k, text], i) => {
+      const t = i === fr.length - 1 ? text.replace(/\s+$/, '') : text;
+      const a = [...prev], b = [...t];
+      let mark = null;
+      for (let j = 0; j < Math.min(a.length, b.length); j++) if (a[j] !== b[j]) { mark = j; break; } // ký tự vừa nhận dấu
+      prev = t;
+      return [k, t, mark];
+    });
+  }
+
   async function loop() {
-    await sleep(450);
-    for (;;) {
-      for (const [k, text, mark] of STEPS) {            // gõ
-        render(text, mark); keycap(k, !reduce);
-        await sleep(k === ' ' ? 260 : TONE.has(k) ? 300 : 150);
-      }
-      await sleep(2400);                                 // dừng cho đọc
-      const chars = [...FULL];
-      const per = keys.children.length / chars.length;   // rút dải phím theo nhịp xoá chữ
-      for (let n = chars.length - 1; n >= 0; n--) {      // xoá từng chữ, như bấm Backspace
-        render(chars.slice(0, n).join(''));
-        while (keys.children.length > Math.round(n * per)) keys.removeChild(keys.lastChild);
-        await sleep(70);
-      }
+    await sleep(350);
+    const ok = await engineReady();
+    if (!ok) { render('Gõ tự do'); return; }
+    PHRASES.forEach((ph) => { ph.frames = framesOf(ph); ph.out = ph.frames.length ? ph.frames[ph.frames.length - 1][1] : ''; });
+    for (let n = 0; ; n = (n + 1) % PHRASES.length) {
+      const ph = current = PHRASES[n];
+      fitTo(ph.out);
+      tagEl.textContent = ph.tag; tagEl.classList.remove('in'); void tagEl.offsetWidth; tagEl.classList.add('in');
       keys.textContent = '';
-      await sleep(500);
+      for (const [k, text, mark] of ph.frames) {            // gõ từng phím
+        render(text, mark);
+        if (k !== ' ' || text.trim()) keycap(k, !reduce);
+        await sleep(k === ' ' ? 180 : TONE.has(k) ? 230 : 105);
+      }
+      await sleep(n === 0 ? 2200 : 1700);                    // dừng cho đọc
+      const chars = [...ph.out];
+      const per = keys.children.length / Math.max(1, chars.length);
+      for (let i = chars.length - 1; i >= 0; i--) {          // xoá từng chữ, như bấm Backspace
+        render(chars.slice(0, i).join(''));
+        while (keys.children.length > Math.round(i * per)) keys.removeChild(keys.lastChild);
+        await sleep(chars.length > 14 ? 32 : 55);
+      }
+      await sleep(380);
     }
   }
   render('');

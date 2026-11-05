@@ -85,7 +85,16 @@ section + .band { margin-top: clamp(72px, 9vw, 112px) !important; }
   margin: 0; font-weight: 900; letter-spacing: -0.045em; line-height: 0.92;
   font-size: clamp(64px, 17vw, 228px); color: #fff; text-shadow: 0 6px 0 rgba(22, 17, 46, 0.22);
   white-space: nowrap; min-height: 1em; padding-bottom: 0.14em; /* chừa chỗ cho dấu nặng dưới chữ ự */
+  display: flex; align-items: flex-end; position: relative; box-sizing: content-box;
 }
+.hero-probe { position: absolute; left: 0; top: 0; visibility: hidden; white-space: pre; pointer-events: none; }
+.hero-tag {
+  display: inline-block; margin: 0 0 clamp(10px, 2vw, 18px); padding: 6px 12px; border-radius: 999px;
+  font: 700 15px/1.2 var(--mono); color: var(--ink); background: var(--lime); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink);
+}
+.hero-tag.in { animation: tag-in 260ms ease-out; }
+@keyframes tag-in { from { transform: translateY(6px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .hero-tag.in { animation: none; } }
 .hero-word .ch { display: inline-block; transition: color 800ms ease; }
 .hero-word .ch.sp { width: 0.24em; }
 .hero-word .ch.mark { color: var(--lime); transition: none; }
@@ -101,7 +110,9 @@ section + .band { margin-top: clamp(72px, 9vw, 112px) !important; }
   background: #fff; border: 1px solid var(--key-edge); border-bottom-width: 3px;
   border-radius: 7px; padding: 8px 10px 7px; min-width: 36px; text-align: center; display: inline-block;
 }
-.keys { display: flex; flex-wrap: wrap; gap: 8px; min-height: 44px; margin: clamp(14px, 2.6vw, 24px) 0 clamp(28px, 4vw, 40px); }
+.keys { display: flex; flex-wrap: nowrap; gap: 8px; height: 48px; padding: 0 6px 6px 0; overflow: hidden; margin: clamp(14px, 2.6vw, 24px) 0 clamp(28px, 4vw, 40px); }
+.keys .key { flex: none; }
+@media (max-width: 560px) { .keys { gap: 6px; height: 42px; } .keys .key { font-size: 13px; padding: 7px 8px 6px; min-width: 30px; } .keys .key.space { min-width: 52px; } }
 .keys .key { border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
 .keys .key.tone { background: var(--lime); color: var(--ink); }
 .keys .key.space { min-width: 64px; color: var(--mute); }
