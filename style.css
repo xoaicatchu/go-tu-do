@@ -95,6 +95,7 @@ section + .band { margin-top: clamp(72px, 9vw, 112px) !important; }
 }
 .caret.gone { animation: none; opacity: 0; transition: opacity 400ms; }
 @keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .caret { animation: none; } }
 
 .key, kbd {
   font: 700 15px/1 var(--mono); color: var(--ink);

@@ -36,17 +36,15 @@
     keys.appendChild(el);
   }
 
-  if (reduce) {
-    render('Gõ tự do');
-    STEPS.forEach(([k]) => keycap(k, false));
-    caret.classList.add('gone');
-  } else {
+  // Chữ tự gõ ra luôn chạy (kể cả khi Windows tắt "Animation effects", vì đây là nội dung chính của trang);
+  // chỉ bỏ hiệu ứng phím lún khi người dùng chọn giảm chuyển động.
+  {
     render('');
     let i = 0;
     const tick = () => {
       if (i >= STEPS.length) { setTimeout(() => caret.classList.add('gone'), 1200); return; }
       const [k, text, mark] = STEPS[i++];
-      render(text, mark); keycap(k, true);
+      render(text, mark); keycap(k, !reduce);
       setTimeout(tick, k === ' ' ? 260 : TONE.has(k) ? 300 : 150);
     };
     setTimeout(tick, 450);
@@ -111,7 +109,7 @@
       const [k, text] = frames[i++];
       pad.value = base + text; showKey(k);
       pad.scrollTop = pad.scrollHeight;
-      typing = setTimeout(step, reduce ? 0 : 70);
+      typing = setTimeout(step, 70);
     };
     step();
   }));
