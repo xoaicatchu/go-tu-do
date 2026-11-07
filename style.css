@@ -6,19 +6,19 @@
   --line: #E6E0F5;
   --violet: #0A66FF;
   --violet-deep: #0A3FAF;
-  --pink: #2BEBFF;
+  --pink: #FF5FA2;
   --orange: #FF8A3D;
-  --lime: #2BEBFF;
-  --lime-deep: #12B9CC;
+  --lime: #E6FF3D;
+  --lime-deep: #B8D400;
   --cyan: #B6FF3D;
-  --lilac: #E9FBFF;
+  --lilac: #F1ECFF;
   --mint: #E4FFF2;
   --peach: #EEF1FF;
   --lemon: #EEFFF4;
   --sky: #E3F8FF;
   --blue: var(--violet);
   --key-edge: #D6CCF2;
-  --grad: radial-gradient(900px 520px at 82% -10%, #1C3A8F 0%, rgba(28,58,143,0) 62%), radial-gradient(700px 420px at 0% 110%, #0E5C6B 0%, rgba(14,92,107,0) 60%), #090E22;
+  --grad: radial-gradient(900px 560px at 88% -10%, #FF5FA2 0%, rgba(255,95,162,0) 58%), radial-gradient(760px 480px at -5% 115%, #00C2FF 0%, rgba(0,194,255,0) 60%), linear-gradient(135deg, #2F5BFF 0%, #6B3DFF 100%);
   --sans: "Be Vietnam Pro", system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
   --wrap: 1120px;
@@ -110,9 +110,9 @@ section + .band { margin-top: clamp(72px, 9vw, 112px) !important; }
   background: #fff; border: 1px solid var(--key-edge); border-bottom-width: 3px;
   border-radius: 7px; padding: 8px 10px 7px; min-width: 36px; text-align: center; display: inline-block;
 }
-.keys { display: flex; flex-wrap: nowrap; gap: 8px; height: 48px; padding: 0 6px 6px 0; overflow: hidden; margin: clamp(14px, 2.6vw, 24px) 0 clamp(28px, 4vw, 40px); }
+.keys { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 8px; height: 98px; padding: 0 6px 6px 0; overflow: hidden; margin: clamp(14px, 2.6vw, 24px) 0 clamp(28px, 4vw, 40px); }
 .keys .key { flex: none; }
-@media (max-width: 560px) { .keys { gap: 6px; height: 42px; } .keys .key { font-size: 13px; padding: 7px 8px 6px; min-width: 30px; } .keys .key.space { min-width: 52px; } }
+@media (max-width: 560px) { .keys { gap: 6px; height: 86px; } .keys .key { font-size: 13px; padding: 7px 8px 6px; min-width: 30px; } .keys .key.space { min-width: 52px; } }
 .keys .key { border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--ink); }
 .keys .key.tone { background: var(--lime); color: var(--ink); }
 .keys .key.space { min-width: 64px; color: var(--mute); }
@@ -145,9 +145,9 @@ section + .band { margin-top: clamp(72px, 9vw, 112px) !important; }
 }
 #pad::placeholder { color: #98A3BF; }
 .try-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 18px; border-top: 2px solid var(--ink); background: var(--lilac); }
-.pressed { display: flex; align-items: center; gap: 12px; min-width: 0; overflow: hidden; }
+.pressed { display: flex; align-items: center; gap: 12px; min-width: 0; flex: 1; }
 .pressed-label { color: var(--mute); font-size: 13px; white-space: nowrap; }
-.pressed-keys { display: flex; gap: 5px; overflow: hidden; }
+.pressed-keys { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 5px; height: 56px; overflow: hidden; flex: 1; min-width: 0; }
 .pressed-keys kbd { font-size: 12px; padding: 5px 7px 4px; min-width: 26px; border-bottom-width: 2px; }
 .link-btn { background: none; border: 0; color: var(--violet-deep); font: 700 14px var(--sans); cursor: pointer; padding: 6px 4px; white-space: nowrap; }
 .link-btn:hover { text-decoration: underline; }

@@ -20,7 +20,7 @@
   const tagEl = document.getElementById('tag');
   const h1 = document.querySelector('.hero-word');
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-  const MAX_KEYS = 18;
+  const MAX_KEYS = 44;
 
   function render(text, mark) {
     word.textContent = '';
@@ -39,8 +39,8 @@
     el.className = 'key' + (k === ' ' ? ' space' : '') + (TONE.has(k) ? ' tone' : '') + (animate ? ' in' : '');
     el.textContent = k === ' ' ? 'space' : k;
     keys.appendChild(el);
-    // giữ một hàng: bỏ phím cũ nhất khi tràn chiều ngang
-    while (keys.children.length > 1 && (keys.children.length > MAX_KEYS || keys.scrollWidth > keys.clientWidth + 1)) keys.removeChild(keys.firstChild);
+    // tối đa hai hàng: hết chỗ mới bỏ phím cũ nhất
+    while (keys.children.length > 1 && (keys.children.length > MAX_KEYS || keys.scrollHeight > keys.clientHeight + 1)) keys.removeChild(keys.firstChild);
   }
 
   // Cỡ chữ vừa khung cho từng câu; chiều cao dòng cố định để phần dưới không nhảy
@@ -118,9 +118,10 @@
     const t = label(k); if (!t) return;
     const el = document.createElement('kbd'); el.textContent = t;
     pressed.appendChild(el);
-    while (pressed.children.length > 16) pressed.removeChild(pressed.firstChild);
+    while (pressed.children.length > 1 && pressed.scrollHeight > pressed.clientHeight + 1) pressed.removeChild(pressed.firstChild); // tối đa hai hàng
   }
-  pad.addEventListener('keydown', (e) => { if (!e.ctrlKey && !e.metaKey && !e.altKey) showKey(e.key); });
+  // nghe ở pha capture của window: chạy TRƯỚC bộ gõ (bộ gõ chặn phím chữ để tự chèn chữ có dấu)
+  window.addEventListener('keydown', (e) => { if (e.target === pad && !e.ctrlKey && !e.metaKey && !e.altKey) showKey(e.key); }, true);
   document.getElementById('clear').addEventListener('click', () => { pad.value = ''; pressed.textContent = ''; pad.focus(); });
 
   // Nút ví dụ: gõ từng phím vào ô bằng chính engine của Gõ Tự Do (giống hệt khi bạn tự gõ)
@@ -186,3 +187,6 @@
     setTimeout(() => { copy.textContent = 'Chép'; }, 1800);
   });
 })();
+
+// Trang giới thiệu: không hiện thanh gợi ý từ kiểu iPhone (kể cả khi trình duyệt còn lưu cài đặt cũ)
+window.addEventListener('load', () => { const g = window.gotudo; if (g && g.cfg) { g.cfg.suggestBar = false; if (g._hideBar) g._hideBar(); } });
